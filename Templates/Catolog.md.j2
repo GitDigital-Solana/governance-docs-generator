@@ -1,0 +1,36 @@
+governance-docs-generator/templates/catalog.md.j2
+
+```markdown
+# Governance Policy Catalog
+
+*Generated: {{ generated_at.strftime('%Y-%m-%d %H:%M:%S') }}*
+
+## Summary
+
+| Metric | Count |
+|--------|-------|
+| Total Policies | {{ total_policies }} |
+| Critical Severity | {{ severity_counts.critical }} |
+| High Severity | {{ severity_counts.high }} |
+| Medium Severity | {{ severity_counts.medium }} |
+| Low Severity | {{ severity_counts.low }} |
+
+## Policies
+
+{% for policy in policies %}
+### {{ policy.name }} v{{ policy.version }}
+
+**Severity:** {{ policy.severity }}  
+**Target:** {{ policy.target_type }}  
+**Rules:** {{ policy.rules_count }}  
+**Created:** {{ policy.created_at }}
+
+{{ policy.description }}
+
+{% if policy.compliance_frameworks %}
+**Compliance Frameworks:** {{ policy.compliance_frameworks|join(', ') }}
+{% endif %}
+
+[View Details](policies/{{ policy.name }}.md)
+
+{% endfor %}
